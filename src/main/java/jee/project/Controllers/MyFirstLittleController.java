@@ -1,12 +1,11 @@
 package jee.project.Controllers;
 
-import jeeproject.jeeproject.Entity.User;
-import jeeproject.jeeproject.Repository.UserRepository;
+import jee.project.Entity.User;
+import jee.project.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.util.Map;

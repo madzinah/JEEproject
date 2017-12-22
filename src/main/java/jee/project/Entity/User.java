@@ -1,4 +1,4 @@
-package jeeproject.jeeproject.Entity;
+package jee.project.Entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
