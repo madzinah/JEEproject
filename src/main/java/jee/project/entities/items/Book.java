@@ -34,10 +34,12 @@ public class Book implements ItemStyle {
     /* ISBN */
     private ISBN isbn;
 
+    // CONSTRUCTOR
     public Book() {
         this.genres = new ArrayList<>();
     }
 
+    // GETTERS, SETTERS AND METHODS
     @Override
     public String getTitle() {
         return title;

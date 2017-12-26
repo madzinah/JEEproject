@@ -46,7 +46,7 @@ public class VideoGame implements ItemStyle {
         this.genres = new ArrayList<>();
     }
 
-    // SETERS GETERS
+    // SETTERS, GETTERS AND METHODS
     @Override
     public String getTitle() {
         return title;

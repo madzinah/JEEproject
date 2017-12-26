@@ -39,7 +39,7 @@ public class DVD implements ItemStyle {
         this.genres = new ArrayList<>();
     }
 
-    // SETES GETERS
+    // SETTERS, GETTERS AND METHODS
     @Override
     public String getTitle() {
         return title;
