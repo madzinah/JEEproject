@@ -1,85 +1,53 @@
 package jee.project.entities.items;
 
+import jee.project.entities.ItemEntity;
 import jee.project.entities.ItemStyle;
 import jee.project.entities.genres.VideoGameGenre;
 import jee.project.entities.support.VideoGameSupport;
 
-import javax.persistence.Entity;
-import java.util.ArrayList;
+import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-public class VideoGame implements ItemStyle {
+@Table(name = "VideoGame")
+public class VideoGame extends ItemEntity implements ItemStyle {
     // ATTRIBUTES
 
-    /* Title */
-    private String title;
-
     /* Editor */
+    @Column(name = "editor")
     private String editor;
 
     /* Developer Team */
+    @Column(name = "developer")
     private String developer;
 
     /* Project date */
-        private Date projectDate;
-
-    /* Release date */
-    private Date releaseDate;
-
-    /* Description */
-    private String description;
+    @Column(name = "projectDate")
+    private Date projectDate;
 
     /* Age restriction */
+    @Column(name = "pegi")
     private int pegi;
 
     /* List of supports */
-    private List<VideoGameSupport> supportList;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "supports_id")
+    @Column(name = "supports")
+    private Set<VideoGameSupport> supports = new HashSet<>();
 
     /* List of genres */
-    private List<VideoGameGenre> genres;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "VideoGameGenre_id")
+    @Column(name = "genres")
+    private Set<VideoGameGenre> genres = new HashSet<>();
 
     // CONSTRUCTOR
     public VideoGame() {
-        this.supportList = new ArrayList<>();
-        this.genres = new ArrayList<>();
     }
 
     // SETTERS, GETTERS AND METHODS
-    @Override
-    public String getTitle() {
-        return title;
-    }
-
-    @Override
-    public void setTitle(String title) {
-        if (title == null) return;
-        this.title = title;
-    }
-
-    @Override
-    public Date getReleaseDate() {
-        return releaseDate;
-    }
-
-    @Override
-    public void setReleaseDate(Date date) {
-        if (date == null) return;
-        this.releaseDate = date;
-    }
-
-    @Override
-    public String getDescription() {
-        return description;
-    }
-
-    @Override
-    public void setDescription(String description) {
-        if (description == null) return;
-        this.description = description;
-    }
-
     public int getPegi() {
         return pegi;
     }
@@ -115,45 +83,22 @@ public class VideoGame implements ItemStyle {
         this.projectDate = projectDate;
     }
 
-    public List<VideoGameSupport> getSupportList() {
-        return supportList;
-    }
-
-    public void setSupportList(List<VideoGameSupport> supportList) {
-        if (supportList == null) return;
-        this.supportList = supportList;
-    }
-
     public void addSupportItem(VideoGameSupport item) {
         if (item == null) return;
-        if (supportList == null) {
-            supportList = new ArrayList<>();
-        }
-        supportList.add(item);
+        supports.add(item);
     }
 
     public void removeSupportItem(VideoGameSupport item) {
         if (item == null) return;
-        supportList.remove(item);
+        supports.remove(item);
     }
 
     public int numberOfSupportItems() {
-        return supportList.size();
-    }
-
-    public List<VideoGameGenre> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(List<VideoGameGenre> genres) {
-        this.genres = genres;
+        return supports.size();
     }
 
     public void addGenre(VideoGameGenre genre) {
         if (genre == null) return;
-        if (genres == null) {
-            genres = new ArrayList<>();
-        }
         genres.add(genre);
     }
 
@@ -162,7 +107,22 @@ public class VideoGame implements ItemStyle {
         genres.remove(genre);
     }
 
+    @Override
     public int numberOfGenres() {
         return genres.size();
+    }
+
+    @Override
+    public void clearGenres() {
+        this.genres.clear();
+    }
+
+    @Override
+    public boolean genresAreEmpty() {
+        return this.genres.isEmpty();
+    }
+
+    public boolean genresContains(VideoGameGenre genre) {
+        return this.genres.contains(genre);
     }
 }

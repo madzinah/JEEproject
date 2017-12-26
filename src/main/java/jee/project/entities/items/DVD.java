@@ -1,85 +1,49 @@
 package jee.project.entities.items;
 
+import jee.project.entities.ItemEntity;
 import jee.project.entities.ItemStyle;
 import jee.project.entities.genres.DVDGenre;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
-public class DVD implements ItemStyle {
+@Entity
+@Table(name = "DVD")
+public class DVD extends ItemEntity implements ItemStyle {
     // ATTRIBUTES
-    /* Title */
-    private String title;
 
     /* List of directors */
-    private List<String> directors;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "directors_id")
+    @Column(name = "directors")
+    private Set<String> directors = new HashSet<>();
 
     /* List of producers */
-    private List<String> producers;
-
-    /* Release date */
-    private Date dateRelease;
-
-    /* Resume */
-    private String description;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "producers_id")
+    @Column(name = "producers")
+    private Set<String> producers = new HashSet<>();
 
     /* Running Time */
+    @Column(name = "runningTime")
     private float runningTime;
 
     /* Genre(s) */
-    private List<DVDGenre> genres;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "DVDGenres_id")
+    @Column(name = "genres")
+    private Set<DVDGenre> genres = new HashSet<>();
 
     /* Budget */
+    @Column(name = "budget")
     private int budget;
 
     // CONSTRUCTOR
     public DVD() {
-        this.producers = new ArrayList<>();
-        this.genres = new ArrayList<>();
     }
 
     // SETTERS, GETTERS AND METHODS
-    @Override
-    public String getTitle() {
-        return title;
-    }
-
-    @Override
-    public void setTitle(String title) {
-        if (title == null) return;
-        this.title = title;
-    }
-
-    @Override
-    public Date getReleaseDate() {
-        return dateRelease;
-    }
-
-    @Override
-    public void setReleaseDate(Date date) {
-        this.dateRelease = date;
-    }
-
-    @Override
-    public String getDescription() {
-        return description;
-    }
-
-    @Override
-    public void setDescription(String description) {
-        if (description == null) return;
-        this.description = description;
-    }
-
-    public List<DVDGenre> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(List<DVDGenre> genres) {
-        this.genres = genres;
-    }
-
     public void addGenre(DVDGenre genre) {
         if (genre == null) return;
         this.genres.add(genre);
@@ -90,8 +54,23 @@ public class DVD implements ItemStyle {
         this.genres.remove(genre);
     }
 
+    @Override
     public int numberOfGenres() {
         return this.genres.size();
+    }
+
+    @Override
+    public void clearGenres() {
+        this.genres.clear();
+    }
+
+    @Override
+    public boolean genresAreEmpty() {
+        return this.genres.isEmpty();
+    }
+
+    public boolean genresContains(DVDGenre genre) {
+        return this.genres.contains(genre);
     }
 
     public float getRunningTime() {
@@ -100,14 +79,6 @@ public class DVD implements ItemStyle {
 
     public void setRunningTime(float runningTime) {
         this.runningTime = runningTime;
-    }
-
-    public List<String> getProducers() {
-        return producers;
-    }
-
-    public void setProducers(List<String> producers) {
-        this.producers = producers;
     }
 
     public void addProducer(String producer) {
@@ -124,12 +95,17 @@ public class DVD implements ItemStyle {
         return producers.size();
     }
 
-    public List<String> getDirectors() {
-        return directors;
+    public void clearProducers() {
+        this.producers.clear();
     }
 
-    public void setDirectors(List<String> directors) {
-        this.directors = directors;
+    public boolean producersAreEmpty() {
+        return this.producers.isEmpty();
+    }
+
+    public boolean producersContains(String producer) {
+        if (producer == null) return false;
+        return this.producers.contains(producer);
     }
 
     public void addDirector(String director) {
@@ -144,6 +120,19 @@ public class DVD implements ItemStyle {
 
     public int numberOfDirectors() {
         return this.directors.size();
+    }
+
+    public void clearDirectors() {
+        this.directors.clear();
+    }
+
+    public boolean directorsAreEmpty() {
+        return this.directors.isEmpty();
+    }
+
+    public boolean directorsContains(String director) {
+        if (director == null) return false;
+        return this.directors.contains(director);
     }
 
     public int getBudget() {

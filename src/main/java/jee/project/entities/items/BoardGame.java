@@ -1,80 +1,53 @@
 package jee.project.entities.items;
 
+import jee.project.entities.ItemEntity;
 import jee.project.entities.ItemStyle;
 import jee.project.entities.genres.BoardGameGenre;
 
-import java.util.Date;
-import java.util.List;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
-public class BoardGame implements ItemStyle {
+@Entity
+@Table(name="BoardGame")
+public class BoardGame extends ItemEntity implements ItemStyle {
     // ATTRIBUTES
-    /* Title */
-    private String title;
-
-    /* Release date */
-    private Date releaseDate;
-
     /* Author */
+    @Column(name = "author")
     private String author;
 
     /* Editor */
+    @Column(name = "editor")
     private String editor;
 
-    /* Description */
-    private String description;
-
     /* Minimum age restriction */
+
+    @Column(name = "ageMin")
     private int ageMin;
 
     /* Minimum players */
+    @Column(name = "minPlayers")
     private int minPlayers;
 
     /* Maximum players */
+    @Column(name = "maxPlayers")
     private int maxPlayers;
 
     /* Duration (in minutes) */
+    @Column(name = "duration")
     private int duration;
 
     /* Board game genres */
-    private List<BoardGameGenre> genres;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "boardGameGenre_id")
+    @Column(name = "genres")
+    private Set<BoardGameGenre> genres = new HashSet<>();
 
     // CONSTRUCTOR
     public BoardGame() {
-
     }
 
     // GETTERS, SETTERS AND METHODS
-    @Override
-    public String getTitle() {
-        return title;
-    }
-
-    @Override
-    public void setTitle(String title) {
-        if (this.title == null) return;
-        this.title = title;
-    }
-
-    @Override
-    public Date getReleaseDate() {
-        return releaseDate;
-    }
-
-    @Override
-    public void setReleaseDate(Date date) {
-        this.releaseDate = date;
-    }
-
-    @Override
-    public String getDescription() {
-        return description;
-    }
-
-    @Override
-    public void setDescription(String description) {
-        if (description == null) return;
-        this.description = description;
-    }
 
     public int getAgeMin() {
         return ageMin;
@@ -126,14 +99,6 @@ public class BoardGame implements ItemStyle {
         this.editor = editor;
     }
 
-    public List<BoardGameGenre> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(List<BoardGameGenre> genres) {
-        this.genres = genres;
-    }
-
     public void addGenre(BoardGameGenre genre) {
         if (genre == null) return;
         this.genres.add(genre);
@@ -144,7 +109,22 @@ public class BoardGame implements ItemStyle {
         this.genres.remove(genre);
     }
 
+    @Override
     public int numberOfGenres() {
         return this.genres.size();
+    }
+
+    @Override
+    public void clearGenres() {
+        this.genres.clear();
+    }
+
+    @Override
+    public boolean genresAreEmpty() {
+        return this.genres.isEmpty();
+    }
+
+    public boolean genresContains(BoardGameGenre genre) {
+        return this.genres.contains(genre);
     }
 }

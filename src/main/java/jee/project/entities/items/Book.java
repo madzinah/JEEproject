@@ -1,85 +1,45 @@
 package jee.project.entities.items;
 
+import jee.project.entities.ItemEntity;
 import jee.project.entities.ItemStyle;
 import jee.project.entities.genres.BookGenre;
 import jee.project.entities.support.ISBN;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
-public class Book implements ItemStyle {
+@Entity
+@Table(name = "Book")
+public class Book extends ItemEntity implements ItemStyle {
     // ATTRIBUTES
-    /* Title */
-    private String title;
-
-    /* Release date */
-    private Date releaseDate;
-
-    /* Description */
-    private String description;
-
     /* Author */
+    @Column(name = "author")
     private String author;
 
     /* Number of pages */
+    @Column(name = "pages")
     private int pages;
 
     /* Editor */
+    @Column(name = "editor")
     private String editor;
 
     /* List of genres */
-    private List<BookGenre> genres;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "bookGenre_id")
+    @Column(name = "genres")
+    private Set<BookGenre> genres = new HashSet<BookGenre>();
 
     /* ISBN */
+    @Column(name = "isbn")
     private ISBN isbn;
 
     // CONSTRUCTOR
     public Book() {
-        this.genres = new ArrayList<>();
     }
 
     // GETTERS, SETTERS AND METHODS
-    @Override
-    public String getTitle() {
-        return title;
-    }
-
-    @Override
-    public void setTitle(String title) {
-        if (title == null) return;
-        this.title = title;
-    }
-
-    @Override
-    public Date getReleaseDate() {
-        return releaseDate;
-    }
-
-    @Override
-    public void setReleaseDate(Date date) {
-        this.releaseDate = date;
-    }
-
-    @Override
-    public String getDescription() {
-        return description;
-    }
-
-    @Override
-    public void setDescription(String description) {
-        if (description == null) return;
-        this.description = description;
-    }
-
-    public List<BookGenre> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(List<BookGenre> genres) {
-        this.genres = genres;
-    }
-
     public void addGenre(BookGenre genre) {
         if (genre == null) return;
         this.genres.add(genre);
@@ -90,8 +50,21 @@ public class Book implements ItemStyle {
         this.genres.remove(genre);
     }
 
+    @Override
     public int numberOfGenres() {
         return this.genres.size();
+    }
+
+    @Override
+    public void clearGenres() { this.genres.clear(); }
+
+    @Override
+    public boolean genresAreEmpty() {
+        return this.genres.isEmpty();
+    }
+
+    public boolean genresContains(BookGenre genre) {
+        return this.genres.contains(genre);
     }
 
     public String getAuthor() {

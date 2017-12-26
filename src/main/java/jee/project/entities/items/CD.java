@@ -1,77 +1,47 @@
 package jee.project.entities.items;
 
+import jee.project.entities.ItemEntity;
 import jee.project.entities.ItemStyle;
 import jee.project.entities.genres.CDGenre;
 
-import java.util.ArrayList;
+import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-public class CD implements ItemStyle {
+@Entity
+@Table(name = "CD")
+public class CD extends ItemEntity implements ItemStyle {
     // ATTRIBUTES
-    /* Title */
-    private String title;
-
-    /* Release date */
-    private Date releaseDate;
-
     /* Record date */
+    @Column(name = "recordDate")
     private Date recordDate;
 
     /* Studio */
+    @Column(name = "studio")
     private String studio;
 
     /* Place */
+    @Column(name = "place")
     private String place;
 
-    /* Description */
-    private String description;
-
     /* List of labels */
-    private List<String> labels;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "Labels_id")
+    @Column(name = "labels")
+    private Set<String> labels = new HashSet<String>();
 
     /* List of genres */
-    private List<CDGenre> genres;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "CDGenre_id")
+    @Column(name = "genres")
+    private Set<CDGenre> genres = new HashSet<CDGenre>();
 
     // CONSTRUCTOR
     public CD() {
-        this.labels = new ArrayList<>();
-        this.genres = new ArrayList<>();
     }
 
     // SETTERS, GETTERS AND METHODS
-    @Override
-    public String getTitle() {
-        return title;
-    }
-
-    @Override
-    public void setTitle(String title) {
-        if (title == null) return;
-        this.title = title;
-    }
-
-    @Override
-    public Date getReleaseDate() {
-        return releaseDate;
-    }
-
-    @Override
-    public void setReleaseDate(Date date) {
-        this.releaseDate = date;
-    }
-
-    @Override
-    public String getDescription() {
-        return description;
-    }
-
-    @Override
-    public void setDescription(String description) {
-        if (description == null) return;
-        this.description = description;
-    }
-
     public Date getRecordDate() {
         return recordDate;
     }
@@ -98,14 +68,6 @@ public class CD implements ItemStyle {
         this.place = place;
     }
 
-    public List<String> getLabels() {
-        return labels;
-    }
-
-    public void setLabels(List<String> labels) {
-        this.labels = labels;
-    }
-
     public void addLabel(String label) {
         if (label == null) return;
         this.labels.add(label);
@@ -120,12 +82,17 @@ public class CD implements ItemStyle {
         return this.labels.size();
     }
 
-    public List<CDGenre> getGenres() {
-        return genres;
+    public void clearLabels() {
+        this.labels.clear();
     }
 
-    public void setGenres(List<CDGenre> genres) {
-        this.genres = genres;
+    public boolean labelsAreEmpty() {
+        return this.labels.isEmpty();
+    }
+
+    public boolean labelsContains(String label) {
+        if (label == null) return false;
+        return this.labels.contains(label);
     }
 
     public void addGenre(CDGenre genre) {
@@ -138,7 +105,22 @@ public class CD implements ItemStyle {
         this.genres.remove(genre);
     }
 
+    @Override
     public int numberOfGenres() {
         return this.genres.size();
+    }
+
+    @Override
+    public void clearGenres() {
+        this.genres.clear();
+    }
+
+    @Override
+    public boolean genresAreEmpty() {
+        return this.genres.isEmpty();
+    }
+
+    public boolean genresContains(CDGenre genre) {
+        return this.genres.contains(genre);
     }
 }
