@@ -20,21 +20,19 @@ public class UserManagementController {
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping(value="/user/register", method=RequestMethod.POST)
+    @RequestMapping(value="/user/register", method=RequestMethod.POST, produces="application/json")
     public String register(@ModelAttribute("user") @Valid User user) {
         if (!userRepository.existsByEmail(user.getEmail())) {
-            user.setSalt(AuthenticationUtils.generateSalt());
-            user.setPassword(
-                    AuthenticationUtils.generateHashedPassword(
-                            user.getPassword(), user.getSalt()));
-            userRepository.save(user);
+            // When being registered the normal way, the user has always by default the User role.
+            user.setRole(AuthenticationUtils.Role.USER);
+            registerUser(user);
             return "Registered !";
         }
 
         return "Already registered !";
     }
 
-    @RequestMapping(value="/user/login", method=RequestMethod.POST)
+    @RequestMapping(value="/user/login", method=RequestMethod.POST, produces="application/json")
     public UUID login(@RequestBody User user) {
         User storedUser = userRepository.findByEmail(user.getEmail());
         if (!userRepository.existsByEmail(user.getEmail())
@@ -43,4 +41,14 @@ public class UserManagementController {
         }
         return TokenManager.getTokenForUser(storedUser);
     }
+
+    public void registerUser(User user) {
+        user.setSalt(AuthenticationUtils.generateSalt());
+        user.setPassword(
+                AuthenticationUtils.generateHashedPassword(
+                        user.getPassword(), user.getSalt()));
+        userRepository.save(user);
+    }
+
+
 }

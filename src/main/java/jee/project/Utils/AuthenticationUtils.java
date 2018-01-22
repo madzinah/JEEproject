@@ -8,6 +8,11 @@ import org.springframework.security.crypto.keygen.KeyGenerators;
 
 public class AuthenticationUtils {
 
+    public enum Role {
+        USER,
+        ADMIN
+    }
+
     public static byte[] generateSalt() {
         return KeyGenerators.secureRandom(64).generateKey();
     }

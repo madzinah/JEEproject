@@ -1,5 +1,6 @@
 package jee.project.Entity;
 
+import jee.project.Utils.AuthenticationUtils.Role;
 import jee.project.Utils.ValidEmail;
 import jee.project.Utils.ValidPassword;
 
@@ -23,6 +24,8 @@ public class User {
     @ValidEmail
     @NotNull
     private String email;
+
+    private Role role;
 
     public Integer getId() {
         return id;
@@ -50,5 +53,11 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Role getRole() {return role; }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
