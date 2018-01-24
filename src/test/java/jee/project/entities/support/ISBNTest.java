@@ -7,8 +7,9 @@ import static org.junit.Assert.assertTrue;
 
 public class ISBNTest {
 
+    // TODO : Refacto with good names
     @Test
-    public void isISBN() {
+    public void oekfoekfoekfoke() {
         assertTrue(ISBN.isISBN("2-7201-0011-0"));
         assertTrue(ISBN.isISBN("0-9752298-0-X"));
         assertTrue(ISBN.isISBN("99921-58-10-7"));

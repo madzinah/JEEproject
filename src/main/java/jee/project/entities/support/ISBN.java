@@ -16,9 +16,12 @@ public class ISBN {
     // CONSTRUCTORS
     public ISBN() {
     }
-    public ISBN(String isbn) {
+    public ISBN(String isbn) throws IllegalISBNException {
+        if (isbn == null) throw new IllegalISBNException();
         if (isISBN(isbn)) {
             this.isbn = isbn;
+        } else {
+            throw new IllegalISBNException();
         }
     }
 
@@ -32,9 +35,12 @@ public class ISBN {
         return isbn;
     }
 
-    public void setIsbn(String isbn) {
-        if (isbn == null) return;
-        if (isISBN(isbn))
+    public void setIsbn(String isbn) throws IllegalISBNException {
+        if (isbn == null) throw new IllegalISBNException();
+        if (isISBN(isbn)) {
             this.isbn = isbn;
+        } else {
+            throw new IllegalISBNException();
+        }
     }
 }
