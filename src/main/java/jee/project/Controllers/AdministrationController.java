@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -74,6 +76,41 @@ public class AdministrationController {
             return true;
         }
         return false;
+    }
+
+    //
+    // CSV EXPORT
+    //
+
+    @RequestMapping(value="/admin/user/export/csv", method= RequestMethod.GET, produces="application/json")
+    public void listUsersCSVExport(UUID token, HttpServletResponse response) throws IOException {
+        if (checkAdminPrivileges(token)) {
+
+            String csvFileName = "users.csv";
+
+            response.setContentType("text/csv");
+
+            String headerKey = "Content-Disposition";
+            String headerValue = String.format("attachment; filename=\"%s\"",
+                    csvFileName);
+            response.setHeader(headerKey, headerValue);
+
+
+            StringBuilder builder = new StringBuilder();
+            String csvSeparator = ";";
+
+            builder.append("Id").append(csvSeparator)
+                    .append("Email").append(csvSeparator)
+                    .append("Role").append(csvSeparator).append('\n');
+
+            userRepository.findAll().forEach(user ->
+                    builder.append(user.getId()).append(csvSeparator)
+                            .append(user.getEmail()).append(csvSeparator)
+                            .append(user.getRole()).append('\n')
+            );
+
+            response.getOutputStream().print(builder.toString());
+        }
     }
 
     //
