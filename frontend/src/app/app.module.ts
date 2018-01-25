@@ -5,20 +5,22 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { AppForm } from './tuto/form';
+import { AppRoutingModule } from './app-routing.module';
+import { MediaComponent } from './media/media/media.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    AppForm
+    MediaComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule
   ],
   providers: [],
-  bootstrap: [AppComponent,AppForm]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
