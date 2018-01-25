@@ -1,0 +1,59 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage[a4paper]{geometry}
+\usepackage{multicol}
+\usepackage{listings}
+\usepackage{tabto}
+
+\title{Rapport de projet de JEE}
+\author{par Jordan Baudin, Corentin Le Guen et Geoffrey Spaur}
+\date{28 janvier 2018}
+\pagestyle{fancy}
+\lhead{Rapport de projet de JEE \\ \textbf{M2GIL} - Jordan Baudin, Corentin Le Guen et Geoffrey Spaur}
+\rhead{\includegraphics[scale=0.5]{logo_univ_rouen.png}}
+\setlength{\headsep}{1cm}
+\begin{document}
+
+\maketitle
+\newpage
+\tableofcontents{}
+\newpage
+\section{Présentation}
+  \paragraph{}
+  Ce rapport à pour but d'apporter des réponses concernant le déroulement du projet, 
+  ainsi que sur le résultat final et nos apprentissages tout au long du projet.
+  
+  
+\section{Implémentation de l'authentification}
+  \paragraph{Le guide Spring} \
+  
+  Tout d'abord, il semblait plus faisable et raisonnable d'utiliser le guide Spring sur l'authentification
+  pour écrire sur le sujet, mais le guide a montré uniquement de simples exemples, mais aucune véritable indication
+  de systèmes fonctionnelles, avec enregistrement d'utilisateur et connexion, sans jamais montrer de gestion de session/token.
+  Uniquement un utilisateur rentré en dur dans le code avec un rôle.
+
+  \paragraph{Notre Implémentation} \
+  
+  Le choix a donc été de gérer les utilisateurs, rôles et tokens nous-mêmes.
+  On ajoute donc un utilisateur lors d'une requête d'enregistrement (ou d'ajout par un administrateur, voir paragraphe sur la partie Administration),
+  on vérifie si l'email est au bon format, si le mot de passe l'est aussi (a minima 8 caractères, une lettre minuscule, une lettre majuscule et un chiffre).
+  Ensuite, on l'enregistre avec le rôle "USER".
+
+  Lorsqu'une personne a un compte, il peut se connecter, il recevra alors un ID token, qu'il devra donner pour chacune des requêtes qu'il fera,
+  pour vérifier qu'il est effectivement enregistré et connecté. Lorsque le cas est echéant, on vérifiera qu'il a le rôle nécessaire pour la requête faite.
+
+  Pour modifier le rôle d'un utilisateur, il sera nécessaire de passer par l'Administration, donc seul un "ADMIN" pourra modifier ce rôle.
+
+  La gestion du token se fait dans un module statique qui stocke les tokens valables en cours, si jamais le serveur tombe, tous les tokens deviennent caduques,
+  afin d'éviter une attaque de vol de token. Le but ici est de privilégier la re-connexion de l'utilisateur à un token qui serait valable pendant 10 ans.
+  On invalide le token lors d'une déconnexion.
+  
+
+\end{document}
