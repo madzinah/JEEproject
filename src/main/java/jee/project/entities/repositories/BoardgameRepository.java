@@ -42,15 +42,6 @@ public class BoardgameRepository implements Repository<Boardgame, Long> {
         return query.getResultList();
     }
 
-    public List<Boardgame> findAllByAgeRestriction(int min, int max) {
-        if (min >= max) return null;
-        TypedQuery<Boardgame> query = em.createQuery("select b from Boardgame b where b.ageMin >= :min and b.ageMax <= :max", Boardgame.class);
-        query.setParameter("min", min);
-        query.setParameter("max", max);
-
-        return query.getResultList();
-    }
-
     public List<Boardgame> findAllByMinPlayers(int min) {
         TypedQuery<Boardgame> query = em.createQuery("select b from Boardgame b where b.minPlayers >= :min", Boardgame.class);
         query.setParameter("min", min);
@@ -101,12 +92,4 @@ public class BoardgameRepository implements Repository<Boardgame, Long> {
 
         return query.getResultList();
     }
-
-    public List<Boardgame> findAllByEditor(String editor) {
-        TypedQuery<Boardgame> query = em.createQuery("select b from Boardgame b where b.author = :editor", Boardgame.class);
-        query.setParameter("editor", editor);
-
-        return query.getResultList();
-    }
-
 }

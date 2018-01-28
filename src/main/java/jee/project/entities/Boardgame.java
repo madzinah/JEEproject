@@ -23,6 +23,12 @@ public class Boardgame {
     private int min_age;
 
     @Column
+    private int min_players;
+
+    @Column
+    private int max_players;
+
+    @Column
     private int duration;
 
     @Column
@@ -94,5 +100,21 @@ public class Boardgame {
 
     public void addGenre(String genre) {
         this.genres.add(genre);
+    }
+
+    public int getMin_players() {
+        return min_players;
+    }
+
+    public void setMin_players(int min_players) {
+        this.min_players = min_players;
+    }
+
+    public int getMax_players() {
+        return max_players;
+    }
+
+    public void setMax_players(int max_players) {
+        this.max_players = max_players;
     }
 }
