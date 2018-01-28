@@ -1,5 +1,7 @@
-package jee.project.entities.support;
+package jee.project.support;
 
+import jee.project.entities.support.ISBN;
+import jee.project.entities.support.IllegalISBNException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
