@@ -1,6 +1,7 @@
 package jee.project.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class Cd {
     protected Cd() {}
 
     public Cd(String title, String producer) {
+        if (title == null || producer == null) throw new IllegalArgumentException();
         this.title = title;
         this.producer = producer;
     }
@@ -44,6 +46,7 @@ public class Cd {
     }
 
     public void setTitle(String title) {
+        if (title == null) throw new IllegalArgumentException();
         this.title = title;
     }
 
@@ -52,6 +55,7 @@ public class Cd {
     }
 
     public void setProducer(String producer) {
+        if (producer == null) throw new IllegalArgumentException();
         this.producer = producer;
     }
 
@@ -76,10 +80,14 @@ public class Cd {
     }
 
     public void setGenres(List<String> genres) {
+        if (genres == null) throw new IllegalArgumentException();
+        if (genres.size() == 0) throw new IllegalArgumentException("The list can't be void");
         this.genres = genres;
     }
 
     public void addGenre(String genre) {
+        if (genre == null) throw new IllegalArgumentException();
+        if (this.genres == null) this.genres = new ArrayList<>();
         this.genres.add(genre);
     }
 }

@@ -1,6 +1,7 @@
 package jee.project.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,7 +30,9 @@ public class Dvd {
     protected Dvd() {}
 
     public Dvd(String title, String author) {
+        if (title == null || author == null) throw new IllegalArgumentException();
         this.title = title;
+        this.author = author;
     }
 
     // Methods
@@ -42,6 +45,7 @@ public class Dvd {
     }
 
     public void setTitle(String title) {
+        if (title == null) throw new IllegalArgumentException();
         this.title = title;
     }
 
@@ -50,6 +54,7 @@ public class Dvd {
     }
 
     public void setAuthor(String author) {
+        if (author == null) throw new IllegalArgumentException();
         this.author = author;
     }
 
@@ -58,10 +63,14 @@ public class Dvd {
     }
 
     public void setProductors(List<String> productors) {
+        if (productors == null) throw new IllegalArgumentException();
+        if (productors.size() == 0) throw new IllegalArgumentException("The list can't be void");
         this.productors = productors;
     }
 
     public void addProductor(String productor) {
+        if (productor == null) throw new IllegalArgumentException();
+        if (this.productors == null) this.productors = new ArrayList<>();
         this.productors.add(productor);
     }
 
@@ -70,6 +79,7 @@ public class Dvd {
     }
 
     public void setDuration(double duration) {
+        if (duration <= 0) throw new IllegalArgumentException();
         this.duration = duration;
     }
 
@@ -78,10 +88,14 @@ public class Dvd {
     }
 
     public void setGenres(List<String> genres) {
+        if (genres == null) throw new IllegalArgumentException();
+        if (genres.size() == 0) throw new IllegalArgumentException("The list can't be void");
         this.genres = genres;
     }
 
     public void addGenre(String genre) {
+        if (genre == null) throw new IllegalArgumentException();
+        if (this.genres == null) this.genres = new ArrayList<>();
         this.genres.add(genre);
     }
 }

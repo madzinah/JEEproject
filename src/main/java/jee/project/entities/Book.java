@@ -1,6 +1,7 @@
 package jee.project.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,8 +26,11 @@ public class Book {
 
     // Constructors
     protected Book() {}
-    public Book(String title, String author) {
 
+    public Book(String title, String author) {
+        if (title == null || author == null) throw new IllegalArgumentException();
+        this.title = title;
+        this.author = author;
     }
 
     // Methods
@@ -39,6 +43,7 @@ public class Book {
     }
 
     public void setTitle(String title) {
+        if (title == null) throw new IllegalArgumentException();
         this.title = title;
     }
 
@@ -47,6 +52,7 @@ public class Book {
     }
 
     public void setAuthor(String author) {
+        if (author == null) throw new IllegalArgumentException();
         this.author = author;
     }
 
@@ -63,10 +69,15 @@ public class Book {
     }
 
     public void setGenres(List<String> genres) {
+        if (genres == null) throw new IllegalArgumentException();
+        if (genres.size() == 0) throw new IllegalArgumentException("The list can't be void");
+        if (this.genres == null) this.genres = new ArrayList<>();
         this.genres = genres;
     }
 
     public void addGenre(String genre) {
+        if (genre == null) throw new IllegalArgumentException();
+        if (this.genres == null) this.genres = new ArrayList<>();
         this.genres.add(genre);
     }
 }
