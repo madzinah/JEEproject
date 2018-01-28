@@ -1,4 +1,4 @@
-package jeeproject.jeeproject;
+package jee.project;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

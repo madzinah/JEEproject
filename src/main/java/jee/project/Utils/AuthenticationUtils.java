@@ -25,7 +25,7 @@ public class AuthenticationUtils {
     public static boolean checkUserPassword(User userNowLogging, User storedUser) {
         assert(userNowLogging.getEmail().equals(storedUser.getEmail()));
         String encodedLoggingPassword = generateHashedPassword(userNowLogging.getPassword(), storedUser.getSalt());
-        return encodedLoggingPassword.equals(storedUser.getPassword());
+        return encodedLoggingPassword.equals(storedUser.getHashedPassword());
     }
 
 }
