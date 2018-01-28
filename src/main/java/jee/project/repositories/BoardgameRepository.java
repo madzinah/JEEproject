@@ -1,4 +1,4 @@
-package jee.project.entities.repositories;
+package jee.project.repositories;
 
 import jee.project.entities.Boardgame;
 import org.springframework.data.repository.Repository;
