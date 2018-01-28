@@ -1,7 +1,5 @@
 package jee.project.Utils;
 
-import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;
-
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.Documented;

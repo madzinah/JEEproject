@@ -4,10 +4,7 @@ import jee.project.Utils.AuthenticationUtils.Role;
 import jee.project.Utils.ValidEmail;
 import jee.project.Utils.ValidPassword;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -17,6 +14,7 @@ public class User {
     private Integer id;
 
     @ValidPassword
+    @Transient
     private String password;
 
     private byte[] salt;
@@ -24,6 +22,8 @@ public class User {
     @ValidEmail
     @NotNull
     private String email;
+
+    private String hashedPassword;
 
     private Role role;
 
@@ -59,5 +59,13 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getHashedPassword() {
+        return hashedPassword;
+    }
+
+    public void setHashedPassword(String hashedPassword) {
+        this.hashedPassword = hashedPassword;
     }
 }

@@ -5,6 +5,8 @@ import jee.project.Repository.UserRepository;
 import jee.project.Security.TokenManager;
 import jee.project.Utils.AuthenticationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,7 +29,7 @@ public class AdministrationController {
     //
 
     @RequestMapping(value="/admin/user", method= RequestMethod.GET, produces="application/json")
-    public List<User> listUsers(UUID token) {
+    public List<User> listUsers(String token) {
         if (checkAdminPrivileges(token)) {
             List<User> users = new ArrayList<>();
             userRepository.findAll().forEach(user -> users.add(0, user));
@@ -37,45 +39,45 @@ public class AdministrationController {
     }
 
     @RequestMapping(value="/admin/user/add", method= RequestMethod.POST, produces="application/json")
-    public boolean addUser(UUID token, @Valid User user) {
+    public ResponseEntity<String> addUser(String token, @Valid User user) {
 
         if (checkAdminPrivileges(token) && !userRepository.existsByEmail(user.getEmail())) {
             registerUser(user);
-            return true;
+            return new ResponseEntity(HttpStatus.OK);
         }
-        return false;
+        return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
 
     @RequestMapping(value="/admin/user/get", method= RequestMethod.GET, produces="application/json")
-    public User searchUserByEmail(UUID token, String email) {
+    public User searchUserByEmail(String token, String email) {
 
         if (checkAdminPrivileges(token) && userRepository.existsByEmail(email)) {
-            return userRepository.findByEmail(email);
+            return userRepository.findDistinctFirstByEmail(email);
         }
         return null;
     }
 
     @RequestMapping(value="/admin/user/update", method= RequestMethod.POST, produces="application/json")
-    public boolean updateUser(UUID token, @Valid User user) {
+    public ResponseEntity<String> updateUser(String token, @Valid User user) {
 
         if (checkAdminPrivileges(token) && userRepository.existsByEmail(user.getEmail())) {
-            User oldUser = userRepository.findByEmail(user.getEmail());
+            User oldUser = userRepository.findDistinctFirstByEmail(user.getEmail());
             user.setId(oldUser.getId());
             registerUser(user);
-            return true;
+            return new ResponseEntity(HttpStatus.OK);
         }
-        return false;
+        return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
 
     @RequestMapping(value="/admin/user/delete", method= RequestMethod.POST, produces="application/json")
-    public boolean deleteUser(UUID token, String email) {
+    public ResponseEntity<String> deleteUser(String token, String email) {
 
         if (checkAdminPrivileges(token) && userRepository.existsByEmail(email)) {
-            User user = userRepository.findByEmail(email);
+            User user = userRepository.findDistinctFirstByEmail(email);
             userRepository.delete(user);
-            return true;
+            return new ResponseEntity(HttpStatus.OK);
         }
-        return false;
+        return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
 
     //
@@ -83,7 +85,7 @@ public class AdministrationController {
     //
 
     @RequestMapping(value="/admin/user/export/csv", method= RequestMethod.GET, produces="application/json")
-    public void listUsersCSVExport(UUID token, HttpServletResponse response) throws IOException {
+    public void listUsersCSVExport(String token, HttpServletResponse response) throws IOException {
         if (checkAdminPrivileges(token)) {
 
             String csvFileName = "users.csv";
@@ -119,15 +121,15 @@ public class AdministrationController {
 
     public void registerUser(User user) {
         user.setSalt(AuthenticationUtils.generateSalt());
-        user.setPassword(
+        user.setHashedPassword(
                 AuthenticationUtils.generateHashedPassword(
                         user.getPassword(), user.getSalt()));
         userRepository.save(user);
     }
 
-    public boolean checkAdminPrivileges(UUID token) {
+    public boolean checkAdminPrivileges(String token) {
 
-        User user = TokenManager.getUserFromUUID(token);
+        User user = TokenManager.getUserFromUUID(UUID.fromString(token));
 
         return  user != null // is the user connected ?
             && user.getRole() == AuthenticationUtils.Role.ADMIN; // is the user an Admin ?
