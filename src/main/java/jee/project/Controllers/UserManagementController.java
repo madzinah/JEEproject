@@ -41,6 +41,12 @@ public class UserManagementController {
         return TokenManager.getTokenForUser(storedUser);
     }
 
+    @RequestMapping(value="/user/logout", method=RequestMethod.POST)
+    public void logout(String token) {
+        TokenManager.removeToken(UUID.fromString(token));
+    }
+
+
     public void registerUser(User user) {
         user.setSalt(AuthenticationUtils.generateSalt());
         user.setHashedPassword(

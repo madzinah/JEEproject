@@ -51,4 +51,9 @@ public class TokenManager {
         return token;
     }
 
+    public static void removeToken(UUID token) {
+        tokenMap.remove(token);
+        tokenExpirationMap.remove(token);
+    }
+
 }
