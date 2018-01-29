@@ -28,14 +28,14 @@ public class AdministrationController {
     // User CRUD
     //
 
-    @RequestMapping(value="/admin/user", method= RequestMethod.GET, produces="application/json")
-    public List<User> listUsers(String token) {
+    @RequestMapping(value="/admin/user", method= RequestMethod.POST, produces="application/json")
+    public ResponseEntity<List<User>> listUsers(String token) {
         if (checkAdminPrivileges(token)) {
             List<User> users = new ArrayList<>();
             userRepository.findAll().forEach(user -> users.add(0, user));
-            return users;
+            return new ResponseEntity(users, HttpStatus.OK);
         }
-        return null;
+        return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
 
     @RequestMapping(value="/admin/user/add", method= RequestMethod.POST, produces="application/json")

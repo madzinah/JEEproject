@@ -20,11 +20,6 @@ public class UserManagementControllerTests {
     private static final String REST_SERVICE_URI = "http://localhost:8080";
 
     /**
-     * Encoding used to encoded URL.
-     */
-    private static final String URL_ENCODER = "UTF-8";
-
-    /**
      * RestTemplate used to interact with Rest service.
      */
     private RestTemplate restTemplate;
@@ -140,6 +135,8 @@ public class UserManagementControllerTests {
             // Delete
             restTemplate.postForEntity(REST_SERVICE_URI + "/admin/user/delete",
                     map, String.class);
+            // Logout
+            restTemplate.postForLocation(REST_SERVICE_URI + "/user/logout", adminToken);
         }
     }
 }
