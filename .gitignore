@@ -27,3 +27,12 @@ nbdist/
 .mvn
 mvnw
 mvnw.cmd
+*.aux
+
+*.log
+
+*.out
+
+*.backup
+
+*.toc

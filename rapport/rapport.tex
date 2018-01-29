@@ -30,7 +30,7 @@
   Ce rapport à pour but d'apporter des réponses concernant le déroulement du projet, 
   ainsi que sur le résultat final et nos apprentissages tout au long du projet.
   
-  
+\newpage
 \section{Implémentation de l'authentification}
   \paragraph{Le guide Spring} \
   
@@ -55,5 +55,22 @@
   afin d'éviter une attaque de vol de token. Le but ici est de privilégier la re-connexion de l'utilisateur à un token qui serait valable pendant 10 ans.
   On invalide le token lors d'une déconnexion.
   
+\newpage
+\section{Implémentation du Front}
+  \paragraph{Choix de la technologie} \
+  
+  Nous avons choisi d'utiliser Angular4. Nous avons exclue Vue.js du choix des technologies
+  car ce dernier est orienté MVVM (Modèle - Vue - Vue - Modèle), ce qui nous paraissait 
+  inapproprié au projet demandé. De plus le framework Angular4 est recommandé dans le 
+  travaille en groupe car c'est un framework orienté objet.
+  
+  \paragraph{Architecture en components} \
+  
+  Le framework Angular4 permet d'assembler un ensemble de composants entre eux. Ce
+  framework permet de développer une application: \emph{single page application}.
+  Chaque composant Angular4 est composé de plusieurs fichiers permettant en architecture MVC:\\ \\
+  \includegraphics[scale=0.6]{angular_component.png}\\ \\
+  Nous avons donc décomposé notre application avec ces composants:\\
+  \includegraphics[scale=0.5]{allcomponent.png}
 
 \end{document}
