@@ -69,8 +69,35 @@
   Le framework Angular4 permet d'assembler un ensemble de composants entre eux. Ce
   framework permet de développer une application: \emph{single page application}.
   Chaque composant Angular4 est composé de plusieurs fichiers permettant en architecture MVC:\\ \\
-  \includegraphics[scale=0.6]{angular_component.png}\\ \\
+  \includegraphics[scale=0.6]{archi_component.png}\\ \\
   Nous avons donc décomposé notre application avec ces composants:\\
   \includegraphics[scale=0.5]{allcomponent.png}
+  
+  \paragraph{Guide technique} \
+  
+  Angular4 permet de créer des applications qui seront hébergées sur un serveur node.js.
+  Nous devons donc dans un premier temps installer ce serveur ainsi que le gestionnaire
+  de package lié à node.js: npm. Vous trouverez les liens de téléchargement 
+  \href{https://nodejs.org/en/download/}{ici}. Si vous êtes sur un système Linux,
+  il est déconseillé d'utilisé les repos officiels. En effet ces derniers ne sont pas à jour,
+  vous ne pourrez donc pas créer de projet angular4. téléchargez donc les binaires afin,
+  de les inclure dans votre .bashrc. Puis vous devrez installer
+  Angular CLI afin de pouvoir créer, modifier ou lancer votre projet:
+  \begin{lstlisting}
+  $ npm install -g @angular/cli
+  \end{lstlisting}
+  Vous pouvez donc maintenant créer un nouveau projet Angular avec la commande suivante:
+  \begin{lstlisting}
+  $ ng new frontend
+  \end{lstlisting}
+  Ainsi vous pourrez rajouter à loisir des composants à votre projet:
+  \begin{lstlisting}
+  $ ng generate component MenuComponent
+  \end{lstlisting}
+  Pour pouvoir lancer votre application, lancez la commande:
+  \begin{lstlisting}
+  $ ng serve
+  \end{lstlisting}
+  Vous pourrez ensuite parcourir votre application à l'adresse: \href{http://localhost:4200}{http://localhost:4200}
 
 \end{document}
