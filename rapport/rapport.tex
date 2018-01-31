@@ -99,5 +99,21 @@
   $ ng serve
   \end{lstlisting}
   Vous pourrez ensuite parcourir votre application à l'adresse: \href{http://localhost:4200}{http://localhost:4200}
+  
+  \paragraph{Difficultés techniques rencontrées} \
+  
+  Plusieurs difficultés techniques ont été rencontré durant le développement de la partie front.\\ \\
+  Tout d'abord l'installation d'Angular4 a posé pas mal de problème sur Debian. Le
+  package disponible n'est pas à jour. Il a donc fallu télécharger la bonne version
+  sur internet comme précisé plus haut. \\ \\
+  Certains modules d'Angular4 sont dépréciés, particulièrement le module permettant
+  d'effectuer des requêtes Ajax. En effet nombre de tutoriels sur internet sont vieux 
+  et non mises à jour. Après consultation de la documentation, nous avons utilisé le
+  module \emph{HttpClient} et non \emph{Http}. \\ \\
+  Ayant séparé le front du back, les requêtes Ajax permettant au front de contacter le
+  back étaient bloquées par le navigateur pour des raisons de sécurité. En effet, sauf contre indication
+  du serveur, il est interdit d'effectuer une requête Ajax vers un serveur ayant 
+  un autre domaine que le front. Nous avons donc dû configurer le serveur 
+  afin d'autoriser ces requêtes.
 
 \end{document}
