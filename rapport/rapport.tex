@@ -59,10 +59,10 @@
 \section{Implémentation du Front}
   \paragraph{Choix de la technologie} \
   
-  Nous avons choisi d'utiliser Angular4. Nous avons exclue Vue.js du choix des technologies
+  Nous avons choisi d'utiliser Angular4. Nous avons exclu Vue.js du choix des technologies
   car ce dernier est orienté MVVM (Modèle - Vue - Vue - Modèle), ce qui nous paraissait 
   inapproprié au projet demandé. De plus le framework Angular4 est recommandé dans le 
-  travaille en groupe car c'est un framework orienté objet.
+  travail en groupe car c'est un framework orienté objet.
   
   \paragraph{Architecture en components} \
   
@@ -79,8 +79,8 @@
   Nous devons donc dans un premier temps installer ce serveur ainsi que le gestionnaire
   de package lié à node.js: npm. Vous trouverez les liens de téléchargement 
   \href{https://nodejs.org/en/download/}{ici}. Si vous êtes sur un système Linux,
-  il est déconseillé d'utilisé les repos officiels. En effet ces derniers ne sont pas à jour,
-  vous ne pourrez donc pas créer de projet angular4. téléchargez donc les binaires afin,
+  il est déconseillé d'utiliser les repos officiels. En effet ces derniers ne sont pas à jour,
+  vous ne pourrez donc pas créer de projet angular4. Téléchargez donc les binaires afin,
   de les inclure dans votre .bashrc. Puis vous devrez installer
   Angular CLI afin de pouvoir créer, modifier ou lancer votre projet:
   \begin{lstlisting}
@@ -115,5 +115,19 @@
   du serveur, il est interdit d'effectuer une requête Ajax vers un serveur ayant 
   un autre domaine que le front. Nous avons donc dû configurer le serveur 
   afin d'autoriser ces requêtes.
+
+\newpage
+\section{Question Bonus}
+  \paragraph{REST ou SOAP ?}\
+  
+  Concernant le choix entre REST et SOAP, il est important déjà de rappeler que REST est une architecture, tandis que SOAP est un protocole. \
+  
+  Ici, le projet effectue du REST en utilisant du HTML. Le REST est très orienté Application à Machine ou Homme à Machine, où on va requêter au
+  serveur sans forcément connaître le modèle qui est derrière, les interactions sont minimales et implique des petits objets simple à manipuler.
+  Le REST est vraiment idéal pour coordonner une API HTML ou un CGI d'application.\
+  
+  Le SOAP lui est vraiment fait pour les interactions Machine à Machine ou Application à Application, où les objets sont envoyés de manière totalement spécifiées,
+  avec un contrat typé fortement, grâce au WSDL (là où le REST fonctionne avec un WADL), où la structure est spécifiée et à respecter sous un format XML.
+  
 
 \end{document}
